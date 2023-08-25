@@ -47,7 +47,7 @@ management:
         include:
           - refresh
           - health
-          
+
 resilience4j:
   circuitbreaker:
     instances:
@@ -66,4 +66,4 @@ resilience4j:
 
 authuser:
   refreshscope:
-    name: Eliel Batiston
+    name: Eliel Batiston Update
