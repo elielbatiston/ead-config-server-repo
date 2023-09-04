@@ -2,7 +2,10 @@ ead:
   serviceRegistry:
     username: admin
     password: 'admin'
-
+  auth:
+    jwtSecret: t7w!z%C*F-JaNdRgUkXp2s5v8x/A?D(G+KbPeShVmYq3t6w9z$B&E)H@McQfTjWn
+    jwtExpirationMs: 14400000
+#https://generate-random.org/api-key-generator/512-bit/mixed-numbers?count=1&length=64&type=mixed-numbers-symbols&prefix=
 eureka:
   client:
     service-url:
