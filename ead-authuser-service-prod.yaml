@@ -1,0 +1,59 @@
+server:
+  port: ${PORT}
+  servlet:
+    context-path: '/ead-authuser/'
+
+spring:
+  application:
+    name: ead-authuser-service
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      jdbc:
+        lob.non-contextual-creation: true
+    properties:
+      hibernate:
+        show_sql: true
+  rabbitmq:
+    addresses: ${CLOUDAMQP_URL}
+
+ead:
+  api:
+    url:
+      course: 'http://ead-course-service/ead-course'
+  broker:
+    exchange:
+      userEvent: ead.userevent
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - refresh
+          - health
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      circuitbreakInstance:
+        sliding-window-size: 30 #janela de verificação, a cada 30 requisição
+        permitted-number-of-calls-in-half-open-state: 2 #qdo o circuito tiver meio aberto, ele fará 2 tentativas para ver se o MS voltou
+        sliding-window-type: TIME_BASED # baseado no tempo
+        minimum-number-of-calls: 2 # tenta 2 vezes antes de falar q deu erro
+        wait-duration-in-open-state: 30s # espera 30s com o circuito aberto
+        failure-rate-threshold: 80 # se tiver 80% de falha
+  retry:
+    instances:
+      retryInstance:
+        max-attempts: 3
+        wait-duration: 5s
+
+authuser:
+  refreshscope:
+    name: Eliel Batiston Update
